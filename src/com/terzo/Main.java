@@ -1,4 +1,8 @@
- class Student {
+package com.terzo;
+
+import test.pkg.Test;
+
+class Student {
     String name ;
     int age;
     String address;
@@ -28,7 +32,7 @@
      }
      @Override
      public String toString(){
-        return "Student name : "+name+"\nAge : "+age+"\nAddress : "+address;
+        return "com.terzo.Student name : "+name+"\nAge : "+age+"\nAddress : "+address;
      }
 
     public static void main(String[] args) {
@@ -38,5 +42,7 @@
         Daniel.setAddress("Somewhere");
         System.out.println(Daniel.getName());
         System.out.println(Daniel.toString());;
+        Test test = new Test();
+        System.out.println(test);
     }
 }
