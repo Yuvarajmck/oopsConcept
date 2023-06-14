@@ -42,7 +42,7 @@ class Student {
         Daniel.setAddress("Somewhere");
         System.out.println(Daniel.getName());
         System.out.println(Daniel.toString());;
-        Test test = new Test();
-        System.out.println(test);
+        /*Test test = new Test();
+        System.out.println(test.display());*/
     }
 }
