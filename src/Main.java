@@ -1,5 +1,42 @@
-public class Main {
+ class Student {
+    String name ;
+    int age;
+    String address;
+
+    public Student(String name, int age, String address){
+        this.name=name;
+        this.age=age;
+        this.address=address;
+    }
+    public void setName(String name){
+        this.name=name;
+    }
+    public void setAge(int age){
+        this.age=age;
+    }
+     public void setAddress(String address){
+         this.address=address;
+     }
+    public String getName(){
+        return name;
+    }
+    public int getAge(){
+        return age;
+    }
+     public String getAddress(){
+         return address;
+     }
+     @Override
+     public String toString(){
+        return "Student name : "+name+"\nAge : "+age+"\nAddress : "+address;
+     }
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Student Daniel = new Student("Daniel", 20,"nowhere");
+        Daniel.setName("Dante ryder");
+        Daniel.setAge(21);
+        Daniel.setAddress("Somewhere");
+        System.out.println(Daniel.getName());
+        System.out.println(Daniel.toString());;
     }
 }
