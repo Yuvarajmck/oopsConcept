@@ -3,9 +3,9 @@ package com.terzo;
 import test.pkg.Test;
 
 class Student {
-    String name ;
-    int age;
-    String address;
+    private String name ;
+    private int age;
+    private String address;
 
     public Student(String name, int age, String address){
         this.name=name;
@@ -42,7 +42,5 @@ class Student {
         Daniel.setAddress("Somewhere");
         System.out.println(Daniel.getName());
         System.out.println(Daniel.toString());;
-        /*Test test = new Test();
-        System.out.println(test.display());*/
     }
 }
