@@ -5,6 +5,7 @@ public class MountainBike {
     protected int fuel;
     protected int gear;
     protected int height;
+
     public MountainBike(int speed, int gear, int fuel){
         this.speed=speed;
         this.gear=gear;
