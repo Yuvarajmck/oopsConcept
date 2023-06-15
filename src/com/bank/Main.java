@@ -7,45 +7,23 @@ import java.util.Scanner;
 public class Main extends Exception {
 
 
-    public static void accInfo(int accNo, int pin){
-        int bal=10_000;
-        System.out.println("Type 1 -> Balance enquiry\nType 2 -> Withdraw\nType 3 -> Change Pin\nType 4 -> Exit");
-        Scanner UserInput = new Scanner(System.in);
-        int res = UserInput.nextInt();
-        if(res==1){
-            System.out.println("Balance : "+bal);
-        }else if(res==2){
-            System.out.print("Enter amount : ");
-            int amt = UserInput.nextInt();
-            bal-=amt;
-        }
-        else if(res==4){
-            return;
-        }
-        else {
-            System.out.println("This service is currently unavailable kindly visit your branch");
-        }
-        accInfo(accNo,pin);
 
-    }
     public static void main(String[] args) {
 
         HashMap<Integer, Integer> Acc_no = new HashMap<>();
         Acc_no.put(7847, 9844);
         Scanner UserInput = new Scanner(System.in);
-        String inPut ="";
-        int x=1;
-        while(x!=0){
+        while(true){
             try {
+                System.out.println("Welcome to Terzo banking and Finance, ");
                 System.out.print("Enter Account Number : ");
                 int accNo = UserInput.nextInt();
                 if(Acc_no.containsKey(accNo)){
                     System.out.print("\nEnter Pin : ");
                     int pin = UserInput.nextInt();
                     if(pin==Acc_no.get(accNo)){
-                        accInfo(accNo,pin);
-                        x=0;
-                        break;
+                        getAccInfo(accNo,pin, Acc_no);
+                        continue;
                     }
 
                 }
@@ -60,4 +38,26 @@ public class Main extends Exception {
 
 
     }
+    public static void getAccInfo(int accNo, int pin, HashMap accInfo){
+        Scanner userInput = new Scanner(System.in);
+
+            System.out.println("Choose Account Type : ");
+            System.out.println("Type 1 -> Current Account\nType 2 -> Savings Account\nType 0 -> Exit");
+            int choice = userInput.nextInt();
+            if(choice==1){
+                CurrentAccount.getCurrentAccount(accNo, pin, accInfo);
+            }
+            else if(choice==2){
+                SavingsAccount.getSavingsAccount(accNo, pin, accInfo);
+            }else if(choice==0){
+                return;
+            }
+            else{
+                System.out.println("Invalid input");
+            }
+
+
+    }
+
+
 }
