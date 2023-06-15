@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 public class Main extends Exception {
 
-
-
     public static void main(String[] args) {
 
         HashMap<Integer, Integer> Acc_no = new HashMap<>();
