@@ -3,41 +3,219 @@ package com.terzo;
 
 import java.util.*;
 
-public class Calculator {
-
-
-    public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
-        String query = userInput.nextLine();
-        String[] num = query.split("[+-/*]");
-        String[] opr= query.split("[0-9]");
-        int a=0;
-        int i=0;
-        for(String s:opr) {
-            int b = Integer.parseInt(num[i]);
-            if (s.equals("+")) {
+public class Calculator extends Exception{
+    private static double doSimplMath(int start, int end, String[] opr, String[] num){
+        double a=0;
+        try{
+            int j=start;
+        for (int i=start;i<end;i++) {
+            int b = Integer.parseInt(num[j]);
+            if (opr[i].equals("+")) {
                 a += b;
-            } else if (s.equals("-")) {
+            } else if (opr[i].equals("-")) {
                 a -= b;
-            } else if (s.equals("/") && b != 0) {
-                if(i==0){
-                    a=1;
+            } else if (opr[i].equals("/") && b != 0) {
+                if (i == 0) {
+                    a = 1;
                 }
                 a /= b;
-            } else {
-                if(i==0){
-                    a=1;
+            }
+            else if(opr[i].length()==2){
+                int st = i;
+                while(opr[i].equals(")")){
+                    i++;
+                }
+                int en=i-1;
+                char temp = opr[i].charAt(0);
+
+                if(temp == '+'){
+                    a+=(doSimplMath(st,en,opr,num));
+                }else if(temp == '-'){
+                    a-=(doSimplMath(st,en,opr,num));
+                }else if(temp == '*'){
+                    a*=(doSimplMath(st,en,opr,num));
+                }else if(temp == '/'){
+                    a/=(doSimplMath(st,en,opr,num));
+                }
+            }
+            else {
+                if (i == 0) {
+                    a = 1;
                 }
                 a *= b;
             }
             i++;
-
+            j++;
         }
-        if(opr.length==0){
-            a+=Integer.parseInt(num[0]);
+        if (opr.length == 0) {
+            a += Integer.parseInt(num[0]);
         }
-        System.out.println(a);
 
+
+    }catch (Exception e){
+            int y=0;
+    }
+        return a;
+    }
+    private static double doMathsWithBraces(String query){
+
+        String[] num = query.split("[+-/*()]");
+        String[] opr= query.split("[0-9]");
+        double a=0;
+        int i=0;
+        try{
+            for (String s : opr) {
+                if(s==""){
+                    continue;
+                }
+                int b;
+                if(num[i]!=""){
+                    b = Integer.parseInt(num[i]);
+                }
+                else{
+                    i++;
+                    b=0;
+                }
+                if (s.equals("+")) {
+                    a += b;
+                } else if (s.equals("-")) {
+                    a -= b;
+                } else if (s.equals("/") && b != 0) {
+                    if (i == 0) {
+                        a = 1;
+                    }
+                    a /= b;
+                }
+                else if(s.length()==2){
+                    int start = i;
+                    while(!opr[i].equals(")")){
+                        i++;
+                    }
+
+                    int end=i+1;
+                    char temp = s.charAt(0);
+                    if(temp == '+'){
+                        a+=(doSimplMath(start,end,opr,num));
+                    }else if(temp == '-'){
+                        a-=(doSimplMath(start,end,opr,num));
+                    }else if(temp == '*'){
+                        a*=(doSimplMath(start,end,opr,num));
+                    }else if(temp == '/'){
+                        a/=(doSimplMath(start,end,opr,num));
+                    }
+                    i-=2;
+                }
+                else {
+                    if (i == 0) {
+                        a = 1;
+                    }
+                    a *= b;
+                }
+                i++;
+
+            }
+            if (opr.length == 0) {
+                a += Integer.parseInt(num[0]);
+            }
+
+        }catch (Exception e){
+            int y=0;
+        }
+        a+=Integer.parseInt(num[i-1]);
+        return a;
+    }
+    private static double doMath(String query){
+        String[] num = query.split("[+-/*()]");
+        String[] opr= query.split("[0-9]");
+        double a=0;
+        int i=0;
+
+        try{
+            for (String s : opr) {
+                if(s==""){
+                    continue;
+                }
+                int b = Integer.parseInt(num[i]);
+                if (s.equals("+")) {
+                    a += b;
+                } else if (s.equals("-")) {
+                    a -= b;
+                } else if (s.equals("/") && b != 0) {
+                    if (i == 0) {
+                        a = 1;
+                    }
+                    a /= b;
+                }
+                else {
+                    if (i == 0) {
+                        a = 1;
+                    }
+                    a *= b;
+                }
+                i++;
+
+            }
+            if (opr.length == 0) {
+                a += Integer.parseInt(num[0]);
+            }
+
+
+        }catch (Exception e){
+            int y=0;
+        }
+        a+=Integer.parseInt(num[i]);
+        return a;
+    }
+    public static boolean isValid(String s) {
+
+        Stack<Character> stackOb = new Stack<>();
+
+        for (char c : s.toCharArray()) {
+
+            if (c == '(' || c == '{' || c == '[') {
+                stackOb.push(c);
+            }
+
+            else if (c == ')' && !stackOb.isEmpty() && stackOb.peek() == '(') {
+                stackOb.pop();
+            } else if (c == '}' && !stackOb.isEmpty() && stackOb.peek() == '{') {
+                stackOb.pop();
+            } else if (c == ']' && !stackOb.isEmpty() && stackOb.peek() == '[') {
+                stackOb.pop();
+            }
+
+            else {
+                return false;
+            }
+        }
+        return stackOb.isEmpty();
     }
 
+    public static void main(String[] args) {
+        Scanner userInput = new Scanner(System.in);
+        while(true){
+            System.out.print("Enter your Query : ");
+            String query = userInput.nextLine();
+            boolean plus = query.contains("+");
+            boolean minus = query.contains("-");
+            boolean star = query.contains("*");
+            boolean slash = query.contains("/");
+            if ((plus && star) || (plus && slash) || (minus && star) || (minus && slash)) {
+                if(query.contains("(")){
+                    if (!isValid(query)) {
+                        System.out.println(doMathsWithBraces(query));
+                    } else {
+                        System.out.println("Invalid input");
+                    }
+                }
+                else{
+                    System.out.println("Invalid input use braces");
+                }
+
+            }
+            else {
+                System.out.println(doMath(query));
+            }
+        }
+    }
 }
