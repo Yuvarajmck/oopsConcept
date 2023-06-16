@@ -127,15 +127,21 @@ public class Calculator extends Exception{
     private static double doMath(String query){
         String[] num = query.split("[+-/*()]");
         String[] opr= query.split("[0-9]");
-        double a=0;
-        int i=0;
+        double a=Integer.parseInt(num[0]);
+        int i=1;
 
         try{
             for (String s : opr) {
-                if(s==""){
+                System.out.println(num[i]);
+                if(s.equals("")){
                     continue;
                 }
-                int b = Integer.parseInt(num[i]);
+                int b;
+                if(i<=num.length){
+                     b = Integer.parseInt(num[i]);
+                }else{
+                    break;
+                }
                 if (s.equals("+")) {
                     a += b;
                 } else if (s.equals("-")) {
@@ -163,7 +169,7 @@ public class Calculator extends Exception{
         }catch (Exception e){
             int y=0;
         }
-        a+=Integer.parseInt(num[i]);
+
         return a;
     }
     public static boolean isValid(String s) {
