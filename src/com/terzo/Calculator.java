@@ -5,10 +5,12 @@ import java.util.*;
 
 public class Calculator extends Exception{
     private static double doSimplMath(int start, int end, String[] opr, String[] num){
-        double a=0;
+        double a=Integer.parseInt(num[start]);
         try{
             int j=start;
+
         for (int i=start;i<end;i++) {
+
             int b = Integer.parseInt(num[j]);
             if (opr[i].equals("+")) {
                 a += b;
@@ -38,11 +40,16 @@ public class Calculator extends Exception{
                     a/=(doSimplMath(st,en,opr,num));
                 }
             }
-            else {
+            else if(opr[i].equals("*")){
                 if (i == 0) {
                     a = 1;
                 }
                 a *= b;
+            }
+            else{
+                i++;
+                j++;
+                continue;
             }
             i++;
             j++;
@@ -61,11 +68,13 @@ public class Calculator extends Exception{
 
         String[] num = query.split("[+-/*()]");
         String[] opr= query.split("[0-9]");
-        double a=0;
-        int i=0;
+        double a=Integer.parseInt(num[0]);
+        int i=1;
         try{
             for (String s : opr) {
+
                 if(s==""){
+                    i++;
                     continue;
                 }
                 int b;
@@ -87,12 +96,13 @@ public class Calculator extends Exception{
                     a /= b;
                 }
                 else if(s.length()==2){
-                    int start = i;
+                    int start = 0+i;
+
                     while(!opr[i].equals(")")){
                         i++;
                     }
 
-                    int end=i+1;
+                    int end=i;
                     char temp = s.charAt(0);
                     if(temp == '+'){
                         a+=(doSimplMath(start,end,opr,num));
@@ -103,7 +113,7 @@ public class Calculator extends Exception{
                     }else if(temp == '/'){
                         a/=(doSimplMath(start,end,opr,num));
                     }
-                    i-=2;
+
                 }
                 else {
                     if (i == 0) {
@@ -112,6 +122,10 @@ public class Calculator extends Exception{
                     a *= b;
                 }
                 i++;
+                if(i>= num.length){
+                    break;
+                }
+
 
             }
             if (opr.length == 0) {
@@ -121,7 +135,7 @@ public class Calculator extends Exception{
         }catch (Exception e){
             int y=0;
         }
-        a+=Integer.parseInt(num[i-1]);
+
         return a;
     }
     private static double doMath(String query){
